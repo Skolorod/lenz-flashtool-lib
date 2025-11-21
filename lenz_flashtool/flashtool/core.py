@@ -880,8 +880,9 @@ class FlashTool:
 
         Sends a command to read both firmware and bootloader versions from the device.
         The response contains 8 bytes where:
-            - First 4 bytes represent firmware version
-            - Last 4 bytes represent bootloader version
+
+        * First 4 bytes represent firmware version
+        * Last 4 bytes represent bootloader version
 
         Returns:
             tuple[str, str]: A tuple containing:

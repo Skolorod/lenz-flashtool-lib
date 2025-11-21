@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>lenz-flashtool Documentation &#8212; lenz-flashtool 0.1.5 documentation</title>
+    <title>lenz-flashtool Documentation &#8212; lenz-flashtool 0.1.6 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=59fadc99"></script>
+    <script src="_static/documentation_options.js?v=6e0256f3"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -464,6 +464,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.LenzEncoderProcessor"><code class="docutils literal notranslate"><span class="pre">LenzEncoderProcessor</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.MockFlashTool"><code class="docutils literal notranslate"><span class="pre">MockFlashTool</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.TermColors"><code class="docutils literal notranslate"><span class="pre">TermColors</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.UartBootloaderSeq"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.UartCmd"><code class="docutils literal notranslate"><span class="pre">UartCmd</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.biss_send_dif"><code class="docutils literal notranslate"><span class="pre">biss_send_dif()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.biss_send_hex"><code class="docutils literal notranslate"><span class="pre">biss_send_hex()</span></code></a></li>
@@ -477,11 +478,14 @@
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.plot"><code class="docutils literal notranslate"><span class="pre">plot()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.plot2"><code class="docutils literal notranslate"><span class="pre">plot2()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.prep_hex"><code class="docutils literal notranslate"><span class="pre">prep_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.read_hex_file_irs"><code class="docutils literal notranslate"><span class="pre">read_hex_file_irs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#lenz_flashtool.send_hex_irs_enc"><code class="docutils literal notranslate"><span class="pre">send_hex_irs_enc()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="FlashTool.html">FlashTool Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.FlashTool"><code class="docutils literal notranslate"><span class="pre">FlashTool</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.FlashToolError"><code class="docutils literal notranslate"><span class="pre">FlashToolError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.UartBootloaderSeq"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.UartCmd"><code class="docutils literal notranslate"><span class="pre">UartCmd</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.biss_send_dif"><code class="docutils literal notranslate"><span class="pre">biss_send_dif()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.biss_send_hex"><code class="docutils literal notranslate"><span class="pre">biss_send_hex()</span></code></a></li>
@@ -493,6 +497,8 @@
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.get_nonce"><code class="docutils literal notranslate"><span class="pre">get_nonce()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.init_logging"><code class="docutils literal notranslate"><span class="pre">init_logging()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.prep_hex"><code class="docutils literal notranslate"><span class="pre">prep_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.read_hex_file_irs"><code class="docutils literal notranslate"><span class="pre">read_hex_file_irs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="FlashTool.html#lenz_flashtool.flashtool.send_hex_irs_enc"><code class="docutils literal notranslate"><span class="pre">send_hex_irs_enc()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="BiSS.html">BiSS Module</a><ul>

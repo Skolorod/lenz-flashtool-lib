@@ -11,3 +11,4 @@ build/
 _bak/
 *.log
 *.ps1
+update_version.py

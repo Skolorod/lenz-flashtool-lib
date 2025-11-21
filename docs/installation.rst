@@ -49,6 +49,13 @@ Installation Steps
             pip install lenz-flashtool
 
 
+   If you already have the library installed and want to update it to the latest version, use the following command:
+ 
+   .. code-block:: bash
+
+      # Update the library
+      pip install --upgrade lenz-flashtool
+
 
    To deactivate the virtual environment when done:
    

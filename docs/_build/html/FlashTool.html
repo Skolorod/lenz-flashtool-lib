@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>FlashTool Module &#8212; lenz-flashtool 0.1.5 documentation</title>
+    <title>FlashTool Module &#8212; lenz-flashtool 0.1.6 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=59fadc99"></script>
+    <script src="_static/documentation_options.js?v=6e0256f3"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -392,6 +392,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">FlashTool Module</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.FlashTool"><code class="docutils literal notranslate"><span class="pre">FlashTool</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.FlashToolError"><code class="docutils literal notranslate"><span class="pre">FlashToolError</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.UartBootloaderSeq"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.UartCmd"><code class="docutils literal notranslate"><span class="pre">UartCmd</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.biss_send_dif"><code class="docutils literal notranslate"><span class="pre">biss_send_dif()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.biss_send_hex"><code class="docutils literal notranslate"><span class="pre">biss_send_hex()</span></code></a></li>
@@ -403,6 +404,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.get_nonce"><code class="docutils literal notranslate"><span class="pre">get_nonce()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.init_logging"><code class="docutils literal notranslate"><span class="pre">init_logging()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.prep_hex"><code class="docutils literal notranslate"><span class="pre">prep_hex()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.read_hex_file_irs"><code class="docutils literal notranslate"><span class="pre">read_hex_file_irs()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lenz_flashtool.flashtool.send_hex_irs_enc"><code class="docutils literal notranslate"><span class="pre">send_hex_irs_enc()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="BiSS.html">BiSS Module</a></li>
@@ -1338,6 +1341,68 @@ successful entry into bootloader mode.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.FlashTool.enter_bl_irs">
+<span class="sig-name descname"><span class="pre">enter_bl_irs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.FlashTool.enter_bl_irs" title="Link to this definition">#</a></dt>
+<dd><p>Enter bootloader of IRS encoder and verify successful connection.</p>
+<p>Workflow:
+- Selects SPI channel 2 for IRS encoder communication
+- Sets flashtool mode to ‘spi_uart_irs’ for proper protocol configuration
+- Powers off the encoder briefly (100ms) then powers it back on
+- Sends the bootloader stay command sequence
+- Validates the encoder’s response against expected bootloader acknowledgment</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>None</strong></p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>True if the encoder successfully enters bootloader mode and responds</dt><dd><p>correctly, False otherwise.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">encoder_handler</span><span class="o">.</span><span class="n">reboot_to_bl_irs</span><span class="p">()</span>
+<span class="go">True  # Encoder successfully entered bootloader mode</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.FlashTool.enter_fw_irs">
+<span class="sig-name descname"><span class="pre">enter_fw_irs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.FlashTool.enter_fw_irs" title="Link to this definition">#</a></dt>
+<dd><p>Exit bootloader and reboot the IRS encoder into normal firmware operation.</p>
+<p>Workflow:
+- Selects SPI channel 2 and configures ‘spi_uart_irs’ communication mode
+- Cycles encoder power to ensure clean state transition
+- Sends the bootloader exit command sequence
+- Validates the encoder’s acknowledgment of bootloader exit
+- Always restores the flashtool to default SPI mode as cleanup</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>True if the encoder successfully exits bootloader mode and responds</dt><dd><p>correctly, False otherwise. The system is always returned to default
+SPI mode regardless of the result.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">encoder_handler</span><span class="o">.</span><span class="n">reboot_to_fw_irs</span><span class="p">()</span>
+<span class="go">True  # Encoder successfully exited bootloader and returned to firmware mode</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="lenz_flashtool.flashtool.FlashTool.flashtool_rst">
 <span class="sig-name descname"><span class="pre">flashtool_rst</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.FlashTool.flashtool_rst" title="Link to this definition">#</a></dt>
 <dd><p>Resets the FlashTool device.</p>
@@ -1384,21 +1449,36 @@ successful entry into bootloader mode.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="lenz_flashtool.flashtool.FlashTool.port_read">
 <span class="sig-name descname"><span class="pre">port_read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.FlashTool.port_read" title="Link to this definition">#</a></dt>
-<dd><p>Reads data from the serial port and validates it with a checksum check.</p>
-<p>Waits for the specified number of data bytes plus a checksum byte, reads the data,
-and verifies the checksum. Logs the received data and checksum status, returning the data as a NumPy array.</p>
+<dd><p>Reads a BiSS frame from the serial port, validates its checksum, and returns the payload.</p>
+<p>The method blocks until the expected number of bytes arrives (or a timeout occurs).
+A complete BiSS frame consists of:</p>
+<ul class="simple">
+<li><p>1 byte  - length</p></li>
+<li><p>2 bytes - address (repeated)</p></li>
+<li><p>1 byte  - command</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">length</span></code> bytes - payload data</p></li>
+<li><p>1 byte  - checksum</p></li>
+</ul>
+<p>The checksum is verified with <a class="reference internal" href="#lenz_flashtool.flashtool.calculate_checksum" title="lenz_flashtool.flashtool.calculate_checksum"><code class="xref py py-func docutils literal notranslate"><span class="pre">calculate_checksum()</span></code></a> over <strong>all bytes except the
+checksum itself</strong>.  If verification succeeds the payload (the <code class="docutils literal notranslate"><span class="pre">length</span></code> data bytes)
+is returned as a <code class="docutils literal notranslate"><span class="pre">uint8</span></code> NumPy array.  On failure a <code class="docutils literal notranslate"><span class="pre">FlashToolError</span></code> is raised.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>length</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – The number of data bytes to read (excluding the checksum byte).</p>
+<dd class="field-odd"><p><strong>length</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></span>) – Number of <strong>payload</strong> bytes expected (excludes the 5 technical bytes:
+length, address*2, command, checksum).</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A NumPy array of uint8 values containing the received data (excluding header and checksum).</p>
+<dd class="field-even"><p>1-D array of <code class="docutils literal notranslate"><span class="pre">dtype=uint8</span></code> containing only the payload data.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#lenz_flashtool.flashtool.FlashToolError" title="lenz_flashtool.flashtool.FlashToolError"><strong>FlashToolError</strong></a> – If the data is not received within the timeout period or if checksum validation fails.</p>
+<dd class="field-even"><p><a class="reference internal" href="#lenz_flashtool.flashtool.FlashToolError" title="lenz_flashtool.flashtool.FlashToolError"><strong>FlashToolError</strong></a> – <ul class="simple">
+<li><p>If no data arrives within the internal timeout (currently 1 s).
+    * If the received checksum does not match the calculated one.</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>
@@ -1525,6 +1605,48 @@ and extracts encoder values for both channels. Optionally prints progress indica
 <dd class="field-odd"><p>tuple[str, int]</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.FlashTool.read_fw_bl_ver">
+<span class="sig-name descname"><span class="pre">read_fw_bl_ver</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.FlashTool.read_fw_bl_ver" title="Link to this definition">#</a></dt>
+<dd><p>Read firmware and bootloader version from FlashTool device.</p>
+<p>Sends a command to read both firmware and bootloader versions from the device.
+The response contains 8 bytes where:</p>
+<ul class="simple">
+<li><p>First 4 bytes represent firmware version</p></li>
+<li><p>Last 4 bytes represent bootloader version</p></li>
+</ul>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>Firmware version as hexadecimal string (4 characters)</p></li>
+<li><p>Bootloader version as hexadecimal string (4 characters)</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple[str, str]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ft</span> <span class="o">=</span> <span class="n">FlashTool</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fw_ver</span><span class="p">,</span> <span class="n">bl_ver</span> <span class="o">=</span> <span class="n">ft</span><span class="o">.</span><span class="n">read_fw_bl_ver</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Firmware: </span><span class="si">{</span><span class="n">fw_ver</span><span class="si">}</span><span class="s2">, Bootloader: </span><span class="si">{</span><span class="n">bl_ver</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="go">Firmware: 00010007, Bootloader: 00010002</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Each version is represented as 4-byte value in big-endian format</p></li>
+<li><p>The function converts individual bytes to concatenated hexadecimal string</p></li>
+<li><p>Requires device to be in bootloader mode</p></li>
+</ul>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1821,6 +1943,168 @@ and verifies each page with a flash CRC check. Supports a progress bar and diffe
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 <p>Custom exception for FlashTool errors.</p>
 <p>Raised when a critical error occurs within the FlashTool library.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.UartBootloaderSeq">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">lenz_flashtool.flashtool.</span></span><span class="sig-name descname"><span class="pre">UartBootloaderSeq</span></span><a class="headerlink" href="#lenz_flashtool.flashtool.UartBootloaderSeq" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_EXIT_BL">
+<span class="sig-name descname"><span class="pre">UART_SEQ_ANSWER_TO_EXIT_BL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">0]</span></em><a class="headerlink" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_EXIT_BL" title="Link to this definition">#</a></dt>
+<dd><p>Response sequence acknowledging successful bootloader exit.</p>
+<dl>
+<dt>Packet Structure:</dt><dd><p>Request: [DATA_SIZE][REG_ADDR][0x0F][UART_SEQ_EXIT_BL][CHECKSUM]
+Response: [DATA_SIZE][REG_ADDR][0x1F][UART_SEQ_ANSWER_TO_EXIT_BL][CHECKSUM]</p>
+</dd>
+<dt>Command Sequence:</dt><dd><dl>
+<dt>Request:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0500000</span><span class="n">f00000001ffXX</span>  <span class="c1"># [0x00, 0x00, 0x00, 0x01, 0xFF] + checksum</span>
+</pre></div>
+</div>
+</dd>
+<dt>Response:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0500001</span><span class="n">f0000000000XX</span>  <span class="c1"># [0x00, 0x00, 0x00, 0x00, 0x00] + checksum</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Usage:</dt><dd><ul class="simple">
+<li><p>Validated in reboot_to_fw_irs() to confirm bootloader exit</p></li>
+<li><p>All-zero pattern is expected for successful operation</p></li>
+<li><p>Non-zero response indicates bootloader exit failure</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The device typically resets immediately after sending this response</p></li>
+<li><p>Communication should be re-established in normal firmware mode after reset</p></li>
+<li><p>Timeout may occur if waiting for further responses after this sequence</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_STAY_IN_BL">
+<span class="sig-name descname"><span class="pre">UART_SEQ_ANSWER_TO_STAY_IN_BL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[249,</span> <span class="pre">78,</span> <span class="pre">177,</span> <span class="pre">6]</span></em><a class="headerlink" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_STAY_IN_BL" title="Link to this definition">#</a></dt>
+<dd><p>Response sequence to keep device in bootloader mode and prevent firmware execution.</p>
+<dl>
+<dt>Response:</dt><dd><ul class="simple">
+<li><p>4-byte acknowledgment sequence confirming bootloader mode entry</p></li>
+</ul>
+</dd>
+<dt>Packet Structure:</dt><dd><p>Request: [DATA_SIZE][REG_ADDR][0x0F][UART_SEQ_STAY_IN_BL][CHECKSUM]
+Response: [DATA_SIZE][REG_ADDR][0x1F][UART_SEQ_ANSWER_TO_STAY_IN_BL][CHECKSUM]</p>
+</dd>
+<dt>Command Sequence:</dt><dd><dl>
+<dt>Request:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0400000</span><span class="n">f0531f6b9XX</span>  <span class="c1"># [0x05, 0x31, 0xF6, 0xB9] + checksum</span>
+</pre></div>
+</div>
+</dd>
+<dt>Response:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0400001</span><span class="n">ff94eb106XX</span>  <span class="c1"># [0xF9, 0x4E, 0xB1, 0x06] + checksum</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Usage:</dt><dd><ul class="simple">
+<li><p>Typically sent immediately after device reset/power cycle</p></li>
+<li><p>Must be acknowledged before proceeding with firmware operations</p></li>
+<li><p>Data and address fields may contain specific handshake parameters</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_EXIT_BL">
+<span class="sig-name descname"><span class="pre">UART_SEQ_EXIT_BL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">255]</span></em><a class="headerlink" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_EXIT_BL" title="Link to this definition">#</a></dt>
+<dd><p>Request sequence to exit bootloader mode and jump to main firmware.</p>
+<dl>
+<dt>Packet Structure:</dt><dd><p>Request: [DATA_SIZE][REG_ADDR][0x0F][UART_SEQ_EXIT_BL][CHECKSUM]
+Response: [DATA_SIZE][REG_ADDR][0x1F][UART_SEQ_ANSWER_TO_EXIT_BL][CHECKSUM]</p>
+</dd>
+<dt>Command Sequence:</dt><dd><dl>
+<dt>Request:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0500000</span><span class="n">f00000001ffXX</span>  <span class="c1"># [0x00, 0x00, 0x00, 0x01, 0xFF] + checksum</span>
+</pre></div>
+</div>
+</dd>
+<dt>Response:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0500001</span><span class="n">f0000000000XX</span>  <span class="c1"># [0x00, 0x00, 0x00, 0x00, 0x00] + checksum</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Usage:</dt><dd><ul class="simple">
+<li><p>Sent after successful firmware upload and verification</p></li>
+<li><p>Device will reset and begin executing main firmware after acknowledgment</p></li>
+<li><p>The 0xFF byte typically triggers the actual reset or jump operation</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Ensure all firmware operations are complete before sending this command</p></li>
+<li><p>Device may perform immediate reset after sending the response</p></li>
+<li><p>The all-zero response indicates command acceptance before reset</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_STAY_IN_BL">
+<span class="sig-name descname"><span class="pre">UART_SEQ_STAY_IN_BL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[5,</span> <span class="pre">49,</span> <span class="pre">246,</span> <span class="pre">185]</span></em><a class="headerlink" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_STAY_IN_BL" title="Link to this definition">#</a></dt>
+<dd><p>Request sequence to keep device in bootloader mode and prevent firmware execution.</p>
+<dl>
+<dt>Response:</dt><dd><ul class="simple">
+<li><p>4-byte acknowledgment sequence confirming bootloader mode entry</p></li>
+</ul>
+</dd>
+<dt>Packet Structure:</dt><dd><p>Request: [DATA_SIZE][REG_ADDR][0x0F][UART_SEQ_STAY_IN_BL][CHECKSUM]
+Response: [DATA_SIZE][REG_ADDR][0x1F][UART_SEQ_ANSWER_TO_STAY_IN_BL][CHECKSUM]</p>
+</dd>
+<dt>Command Sequence:</dt><dd><dl>
+<dt>Request:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0400000</span><span class="n">f0531f6b9df</span>  <span class="c1"># [0x05, 0x31, 0xF6, 0xB9] + checksum</span>
+</pre></div>
+</div>
+</dd>
+<dt>Response:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">:</span><span class="mi">0400001</span><span class="n">ff94eb106df</span>  <span class="c1"># [0xF9, 0x4E, 0xB1, 0x06] + checksum</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd>
+<dt>Usage:</dt><dd><ul class="simple">
+<li><p>Typically sent immediately after device reset/power cycle</p></li>
+<li><p>Must be acknowledged before proceeding with firmware operations</p></li>
+<li><p>Data and address fields may contain specific handshake parameters</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -2747,6 +3031,76 @@ If None, the root logger is configured.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.read_hex_file_irs">
+<span class="sig-prename descclassname"><span class="pre">lenz_flashtool.flashtool.</span></span><span class="sig-name descname"><span class="pre">read_hex_file_irs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.read_hex_file_irs" title="Link to this definition">#</a></dt>
+<dd><p>Reads an Intel HEX file and returns a list of hex record strings.</p>
+<p>Opens the specified HEX file, reads its contents, and extracts the hex record strings
+(excluding the initial colon ‘:’ in each line). Each line is expected to be an Intel HEX
+record starting with ‘:’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filepath</strong> (<em>str</em>) – The path to the HEX file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A list of hex record strings from the file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[str]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>SystemExit</strong> – If the file does not exist or cannot be opened.</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">records</span> <span class="o">=</span> <span class="n">readhex</span><span class="p">(</span><span class="s1">&#39;firmware.hex&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">&#39;10010000214601360121470136007EFE09D2190140&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="lenz_flashtool.flashtool.send_hex_irs_enc">
+<span class="sig-prename descclassname"><span class="pre">lenz_flashtool.flashtool.</span></span><span class="sig-name descname"><span class="pre">send_hex_irs_enc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#lenz_flashtool.flashtool.send_hex_irs_enc" title="Link to this definition">#</a></dt>
+<dd><p>Download and flash a hex file to the IRS encoder with verification.</p>
+<p>This function handles the complete firmware update process for the IRS encoder,
+including bootloader entry, hex file transmission, CRC verification, and
+returning to normal operation mode. The process includes retry logic for
+robust operation.</p>
+<p>Process Flow:
+1. Establish connection with encoder in bootloader mode
+2. Read and parse the hex file
+3. Transmit data pages with appropriate command handling
+4. Verify each page using CRC checks
+5. Exit bootloader and return to firmware mode
+6. Implement 3-attempt retry logic for fault tolerance</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – Path to the hex file to be uploaded to the encoder.
+The file should be in Intel HEX format.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>True if the entire upload process completes successfully,</dt><dd><p>False if any critical step fails.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">success</span> <span class="o">=</span> <span class="n">send_hex_irs_enc</span><span class="p">(</span><span class="s2">&quot;firmware_v1.2.hex&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Firmware update completed successfully&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Firmware update failed&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 
 
@@ -2829,6 +3183,8 @@ If None, the root logger is configured.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.encoder_power_off"><code class="docutils literal notranslate"><span class="pre">FlashTool.encoder_power_off()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.encoder_power_on"><code class="docutils literal notranslate"><span class="pre">FlashTool.encoder_power_on()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.enter_bl_biss_encoder"><code class="docutils literal notranslate"><span class="pre">FlashTool.enter_bl_biss_encoder()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.enter_bl_irs"><code class="docutils literal notranslate"><span class="pre">FlashTool.enter_bl_irs()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.enter_fw_irs"><code class="docutils literal notranslate"><span class="pre">FlashTool.enter_fw_irs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.flashtool_rst"><code class="docutils literal notranslate"><span class="pre">FlashTool.flashtool_rst()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.hex_line_send"><code class="docutils literal notranslate"><span class="pre">FlashTool.hex_line_send()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.port_read"><code class="docutils literal notranslate"><span class="pre">FlashTool.port_read()</span></code></a></li>
@@ -2836,6 +3192,7 @@ If None, the root logger is configured.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_data_enc1_AB_enc2_SPI"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_data_enc1_AB_enc2_SPI()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_data_enc1_enc2_SPI"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_data_enc1_enc2_SPI()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_enc2_current"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_enc2_current()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_fw_bl_ver"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_fw_bl_ver()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_instant_angle_enc_SPI"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_instant_angle_enc_SPI()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.read_memory_state_bl"><code class="docutils literal notranslate"><span class="pre">FlashTool.read_memory_state_bl()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashTool.reboot_to_bl"><code class="docutils literal notranslate"><span class="pre">FlashTool.reboot_to_bl()</span></code></a></li>
@@ -2849,6 +3206,13 @@ If None, the root logger is configured.</p></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.FlashToolError"><code class="docutils literal notranslate"><span class="pre">FlashToolError</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartBootloaderSeq"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_EXIT_BL"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq.UART_SEQ_ANSWER_TO_EXIT_BL</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_ANSWER_TO_STAY_IN_BL"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq.UART_SEQ_ANSWER_TO_STAY_IN_BL</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_EXIT_BL"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq.UART_SEQ_EXIT_BL</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartBootloaderSeq.UART_SEQ_STAY_IN_BL"><code class="docutils literal notranslate"><span class="pre">UartBootloaderSeq.UART_SEQ_STAY_IN_BL</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartCmd"><code class="docutils literal notranslate"><span class="pre">UartCmd</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartCmd.CMD_CH1_POWER_OFF"><code class="docutils literal notranslate"><span class="pre">UartCmd.CMD_CH1_POWER_OFF</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.UartCmd.CMD_CH1_POWER_ON"><code class="docutils literal notranslate"><span class="pre">UartCmd.CMD_CH1_POWER_ON</span></code></a></li>
@@ -2884,6 +3248,8 @@ If None, the root logger is configured.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.get_nonce"><code class="docutils literal notranslate"><span class="pre">get_nonce()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.init_logging"><code class="docutils literal notranslate"><span class="pre">init_logging()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.prep_hex"><code class="docutils literal notranslate"><span class="pre">prep_hex()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.read_hex_file_irs"><code class="docutils literal notranslate"><span class="pre">read_hex_file_irs()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lenz_flashtool.flashtool.send_hex_irs_enc"><code class="docutils literal notranslate"><span class="pre">send_hex_irs_enc()</span></code></a></li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Usage &#8212; lenz-flashtool 0.1.5 documentation</title>
+    <title>Usage &#8212; lenz-flashtool 0.1.6 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="_static/documentation_options.js?v=59fadc99"></script>
+    <script src="_static/documentation_options.js?v=6e0256f3"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
@@ -490,14 +490,14 @@
 
 <span class="n">lenz</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="s1">&#39;flashtool.log&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">lenz</span><span class="o">.</span><span class="n">FlashTool</span><span class="p">(</span><span class="n">port_description_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;XR21V&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ft</span><span class="p">:</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;ampcalibrate&#39;</span><span class="p">)</span>
-   <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting Signal Amplitude Calibration...&quot;</span><span class="p">)</span>
-   <span class="k">while</span> <span class="p">((</span><span class="n">ft</span><span class="o">.</span><span class="n">biss_addr_read</span><span class="p">(</span><span class="mh">0x4A</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s1">&#39;uint16&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xC0</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">128</span><span class="p">):</span>
-      <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-   <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Signal Amplitude Calibration Finished&quot;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;ampcalibrate&#39;</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Waiting Signal Amplitude Calibration...&quot;</span><span class="p">)</span>
+    <span class="k">while</span> <span class="p">((</span><span class="n">ft</span><span class="o">.</span><span class="n">biss_addr_read</span><span class="p">(</span><span class="mh">0x4A</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s1">&#39;uint16&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xC0</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">128</span><span class="p">):</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Signal Amplitude Calibration Finished&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -510,13 +510,13 @@
 
 <span class="n">lenz</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="s1">&#39;flashtool.log&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">lenz</span><span class="o">.</span><span class="n">FlashTool</span><span class="p">(</span><span class="n">port_description_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;XR21V&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ft</span><span class="p">:</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;zeroing&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
-   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;zeroing&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -529,14 +529,14 @@
 
 <span class="n">lenz</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="s1">&#39;flashtool.log&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">lenz</span><span class="o">.</span><span class="n">FlashTool</span><span class="p">(</span><span class="n">port_description_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;XR21V&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ft</span><span class="p">:</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;set_dir_cw&#39;</span><span class="p">)</span>
-   <span class="c1"># ft.biss_write_command(&#39;set_dir_ccw&#39;)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
-   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;set_dir_cw&#39;</span><span class="p">)</span>
+    <span class="c1"># ft.biss_write_command(&#39;set_dir_ccw&#39;)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
@@ -549,13 +549,13 @@
 
 <span class="n">lenz</span><span class="o">.</span><span class="n">init_logging</span><span class="p">(</span><span class="s1">&#39;flashtool.log&#39;</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="n">logging</span><span class="o">.</span><span class="n">DEBUG</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">lenz</span><span class="o">.</span><span class="n">FlashTool</span><span class="p">(</span><span class="n">port_description_prefixes</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;XR21V&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">ft</span><span class="p">:</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_word</span><span class="p">(</span><span class="n">lenz</span><span class="o">.</span><span class="n">BiSSBank</span><span class="o">.</span><span class="n">REV_RES_REG_INDEX</span><span class="p">,</span> <span class="mh">0xE</span><span class="p">)</span>  <span class="c1"># Set resolution to 24 bits</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
-   <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
-   <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlocksetup&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;unlockflash&#39;</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_word</span><span class="p">(</span><span class="n">lenz</span><span class="o">.</span><span class="n">BiSSBank</span><span class="o">.</span><span class="n">REV_RES_REG_INDEX</span><span class="p">,</span> <span class="mh">0xE</span><span class="p">)</span>  <span class="c1"># Set resolution to 24 bits</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">biss_write_command</span><span class="p">(</span><span class="s1">&#39;saveflash&#39;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">ft</span><span class="o">.</span><span class="n">encoder_power_cycle</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>For more examples, explore the <a class="reference internal" href="api.html"><span class="doc">lenz-flashtool Library API Reference</span></a> or refer to <a class="reference internal" href="getting_started.html"><span class="doc">Getting Started</span></a>.</p>
