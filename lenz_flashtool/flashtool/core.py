@@ -1583,9 +1583,7 @@ class FlashTool:
         addr = int.from_bytes(address, 'big')
         tx_row = bytes.fromhex(generate_hex_line(addr, UartCmd.HEX_READ_ANGLE_TWO_ENC_AB_SPI, [0])[1:])
 
-        self.__port.reset_output_buffer()
-        self.__port.write(tx_row)
-        self.__port.flush()
+        self._write_to_port(tx_row)
 
         Encoder2 = []
         Encoder1 = []
