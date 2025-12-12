@@ -630,7 +630,7 @@ class UartBootloaderSeq:
         Request:
             >>> :0400000f0531f6b9df  # [0x05, 0x31, 0xF6, 0xB9] + checksum
         Response:
-            >>> :0400001ff94eb106df  # [0xF9, 0x4E, 0xB1, 0x06] + checksum
+            >>> :0400001ff94eb106df  # [0x06, 0xB1, 0x4E, 0xF9] + checksum
 
     Usage:
         - Typically sent immediately after device reset/power cycle
@@ -638,7 +638,7 @@ class UartBootloaderSeq:
         - Data and address fields may contain specific handshake parameters
     """
 
-    UART_SEQ_ANSWER_TO_STAY_IN_BL = [0xF9, 0x4E, 0xB1, 0x06]
+    UART_SEQ_ANSWER_TO_STAY_IN_BL = [0x06, 0xB1, 0x4E, 0xF9]  # [0xF9, 0x4E, 0xB1, 0x06]
     """list: Response sequence to keep device in bootloader mode and prevent firmware execution.
 
     Response:
@@ -652,7 +652,7 @@ class UartBootloaderSeq:
         Request:
             >>> :0400000f0531f6b9XX  # [0x05, 0x31, 0xF6, 0xB9] + checksum
         Response:
-            >>> :0400001ff94eb106XX  # [0xF9, 0x4E, 0xB1, 0x06] + checksum
+            >>> :0400001ff94eb106XX  # [0x06, 0xB1, 0x4E, 0xF9] + checksum
 
     Usage:
         - Typically sent immediately after device reset/power cycle
