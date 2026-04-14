@@ -366,9 +366,9 @@ class UartCmd(IntEnum):
 
         Counter = Single byte time-of-life counter (8-bit)
         Status = Single byte status flags including:
-            - Bit 0: Warning flag (nW)
-            - Bit 1: Error flag (nE)
-            - Bits 2-7: Reserved/encoder-specific status bits
+        Bit 0: Warning flag (nW);
+        Bit 1: Error flag (nE);
+        Bits 2-7: Reserved/encoder-specific status bits.
         CRC = 6-bit CRC checksum for data validation (stored in low 6 bits)
 
     Example Packet Structure:
@@ -638,7 +638,7 @@ class UartBootloaderSeq:
         - Data and address fields may contain specific handshake parameters
     """
 
-    UART_SEQ_ANSWER_TO_STAY_IN_BL = [0x06, 0xB1, 0x4E, 0xF9]  # [0xF9, 0x4E, 0xB1, 0x06]
+    UART_SEQ_ANSWER_TO_STAY_IN_BL = [0xF9, 0x4E, 0xB1, 0x06]  # [0x06, 0xB1, 0x4E, 0xF9]  # [0xF9, 0x4E, 0xB1, 0x06]
     """list: Response sequence to keep device in bootloader mode and prevent firmware execution.
 
     Response:
